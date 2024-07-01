@@ -12,7 +12,7 @@ const Navbar = () => {
   const currentPath = location.pathname;
 
   return (
-    <nav className="bg-gray-200 p-4 shadow-lg">
+    <nav className="bg-gray-200 p-4 shadow-lg z-10">
       <div className="container mx-auto flex justify-center">
         <Menu
           mode="horizontal"

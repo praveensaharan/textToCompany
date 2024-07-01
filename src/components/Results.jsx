@@ -47,7 +47,8 @@ const ResultsComponent = () => {
 
   const handleMove = async (id) => {
     try {
-      await axios.put(`https://s3-to-emai.vercel.app/movetomain/${id}`);
+      console.log("Deleting record with ID:", id);
+      await axios.post(`https://s3-to-emai.vercel.app/movetomain/${id}`);
       setData((prevData) => prevData.filter((item) => item._id !== id));
       Modal.success({
         title: "Moved",
@@ -171,7 +172,7 @@ const ResultsComponent = () => {
               type="default"
               shape="circle"
               icon={<ArrowRightOutlined />}
-              onClick={() => showMoveConfirm(record._id)}
+              onClick={() => showMoveConfirm(record)}
             />
           </Tooltip>
           <Tooltip title="Delete">
