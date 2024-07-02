@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Table } from "antd";
-
+const Baseurl = "https://s3-to-emai.vercel.app";
 const TableComponent = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,9 +9,7 @@ const TableComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://s3-to-emai.vercel.app/tablecontents"
-        );
+        const response = await axios.get(`${Baseurl}/tablecontents`);
         setData(response.data);
         setLoading(false);
       } catch (error) {
@@ -28,26 +26,26 @@ const TableComponent = () => {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      className: "px-4 py-2 text-center",
+      className: "px-2 sm:px-4 py-2 text-center",
     },
     {
       title: "Company Name",
       dataIndex: "company_name",
       key: "company_name",
-      className: "px-4 py-2 text-center",
+      className: "px-2 sm:px-4 py-2 text-center",
     },
     {
       title: "Verify",
       dataIndex: "verify",
       key: "verify",
       render: (verify) => (verify ? "Yes" : "No"),
-      className: "px-4 py-2 text-center",
+      className: "px-2 sm:px-4 py-2 text-center",
     },
     {
       title: "Company Domain",
       dataIndex: "company_domain",
       key: "company_domain",
-      className: "px-4 py-2 text-center",
+      className: "px-2 sm:px-4 py-2 text-center",
     },
     {
       title: "Emails",
@@ -65,12 +63,12 @@ const TableComponent = () => {
           .join(", ");
         return <span>{emails}</span>;
       },
-      className: "px-4 py-2 text-center",
+      className: "px-2 sm:px-4 py-2 text-center",
     },
   ];
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-2 sm:p-4">
       <Table
         columns={columns}
         dataSource={data}
@@ -79,6 +77,7 @@ const TableComponent = () => {
         className="bg-white shadow-lg"
         pagination={false}
         bordered
+        scroll={{ x: 800 }} // Horizontal scrolling for small screens
       />
     </div>
   );

@@ -5,7 +5,7 @@ import { useDropzone } from "react-dropzone";
 import ConditionalComponent from "./Response";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
-
+const Baseurl = "https://s3-to-emai.vercel.app";
 const Home = () => {
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
@@ -39,12 +39,9 @@ const Home = () => {
     if (text || image) {
       try {
         if (text) {
-          const response = await axios.post(
-            "https://s3-to-emai.vercel.app/uploadtext",
-            {
-              text: text,
-            }
-          );
+          const response = await axios.post(`${Baseurl}/uploadtext`, {
+            text: text,
+          });
           setTextResponse(response.data);
           setResponseDatatext(true);
           console.log(response.data);
@@ -54,15 +51,11 @@ const Home = () => {
           const formData = new FormData();
           formData.append("image", image);
 
-          const response = await axios.post(
-            "https://s3-to-emai.vercel.app/upload",
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          );
+          const response = await axios.post(`${Baseurl}/upload`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
           setImageResponse(response.data);
           setResponseDataimage(true);
           console.log(response.data);
@@ -118,23 +111,22 @@ const Home = () => {
   }, [formSubmitted]);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-900 pt-24 pb-20">
-      <div className=" bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
-        <Title level={2} className="mb-4 text-center">
+    <div className="flex justify-center items-center min-h-screen bg-gray-900 pt-8 pb-4 sm:pt-24 sm:pb-20">
+      <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg">
+        <Title level={2} className="mb-2 sm:mb-4 text-center">
           Send a Message or Image
         </Title>
-        <Text className="text-center mb-4">
+        <Text className="text-center mb-2 sm:mb-4">
           Please fill in the details below to send your message or image
         </Text>
         <form onSubmit={handleSubmit}>
           <div
             {...getRootProps()}
-            className={`p-4 border-2 border-dashed rounded-lg ${
+            className={`p-2 sm:p-4 border-2 border-dashed rounded-lg ${
               isDragActive ? "border-blue-500" : "border-gray-300"
-            } mb-4`}
+            } mb-2 sm:mb-4`}
           >
             {!text && <input {...getInputProps()} />}
-
             {isDragActive ? (
               <p className="text-center">Drop the files here ...</p>
             ) : (
@@ -144,7 +136,7 @@ const Home = () => {
             )}
           </div>
           {imagePreview && (
-            <div className="mb-4 flex justify-center">
+            <div className="mb-2 sm:mb-4 flex justify-center">
               <img
                 src={imagePreview}
                 alt="Image Preview"
@@ -158,7 +150,7 @@ const Home = () => {
             value={text}
             onChange={handleTextChange}
             disabled={imagePreview || imagePasted}
-            className="mb-4"
+            className="mb-2 sm:mb-4"
           />
           {imagePasted && (
             <Text className="text-green-600 text-sm mb-2">
@@ -174,7 +166,7 @@ const Home = () => {
             Send
           </Button>
         </form>
-        <div className="flex mt-2">
+        <div className="flex mt-2 sm:mt-4">
           <div>
             {responseDatatext && (
               <ConditionalComponent url={null} results={textResponse.results} />
