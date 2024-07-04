@@ -6,6 +6,7 @@ import ConditionalComponent from "./Response";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 const Baseurl = "https://s3-to-emai.vercel.app";
+
 const Home = () => {
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
@@ -111,26 +112,26 @@ const Home = () => {
   }, [formSubmitted]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900 pt-8 pb-4 sm:pt-24 sm:pb-20">
+    <div className="flex justify-center items-center min-h-screen bg-lightgray pt-8 pb-4 sm:pt-24 sm:pb-20 mt-10">
       <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg">
-        <Title level={2} className="mb-2 sm:mb-4 text-center">
+        <Title level={2} className="mb-2 sm:mb-4 text-center text-black">
           Send a Message or Image
         </Title>
-        <Text className="text-center mb-2 sm:mb-4">
+        <Text className="text-center mb-2 sm:mb-4 text-black">
           Please fill in the details below to send your message or image
         </Text>
         <form onSubmit={handleSubmit}>
           <div
             {...getRootProps()}
             className={`p-2 sm:p-4 border-2 border-dashed rounded-lg ${
-              isDragActive ? "border-blue-500" : "border-gray-300"
+              isDragActive ? "border-orange" : "border-gray-300"
             } mb-2 sm:mb-4`}
           >
             {!text && <input {...getInputProps()} />}
             {isDragActive ? (
-              <p className="text-center">Drop the files here ...</p>
+              <p className="text-center text-black">Drop the files here ...</p>
             ) : (
-              <p className="text-center">
+              <p className="text-center text-black">
                 Drag 'n' drop an image here, or click to select an image
               </p>
             )}
@@ -153,7 +154,7 @@ const Home = () => {
             className="mb-2 sm:mb-4"
           />
           {imagePasted && (
-            <Text className="text-green-600 text-sm mb-2">
+            <Text className="text-orange text-sm mb-2">
               Image pasted from clipboard
             </Text>
           )}
@@ -162,6 +163,7 @@ const Home = () => {
             htmlType="submit"
             block
             disabled={formSubmitted}
+            className="bg-orange border-none"
           >
             Send
           </Button>
