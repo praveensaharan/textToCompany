@@ -8,7 +8,8 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 import { Image } from "antd";
-import Logo from "../assets/react.svg";
+import Logo from "../assets/textto-high-resolution-logo-transparent.png";
+// import Logo from "../assets/logo-no-background.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <div className="flex shrink-0">
             <Link aria-current="page" className="flex items-center" to="/">
-              <Image className="h-8 w-auto" src={Logo} alt="Website Logo" />
+              <img className="h-10" src={Logo} alt="Website Logo" />
               <p className="sr-only">Website Title</p>
             </Link>
           </div>

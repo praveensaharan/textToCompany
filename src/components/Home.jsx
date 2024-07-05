@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button, Typography, Input, message as antdMessage } from "antd";
 import { useDropzone } from "react-dropzone";
 import ConditionalComponent from "./Response";
+import DemoSection from "./DemoSection";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 const Baseurl = "https://s3-to-emai.vercel.app";
@@ -112,79 +113,89 @@ const Home = () => {
   }, [formSubmitted]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-lightgray pt-8 pb-4 sm:pt-24 sm:pb-20 mt-10">
-      <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg">
-        <Title level={2} className="mb-2 sm:mb-4 text-center text-black">
-          Send a Message or Image
-        </Title>
-        <Text className="text-center mb-2 sm:mb-4 text-black">
-          Please fill in the details below to send your message or image
-        </Text>
-        <form onSubmit={handleSubmit}>
-          <div
-            {...getRootProps()}
-            className={`p-2 sm:p-4 border-2 border-dashed rounded-lg ${
-              isDragActive ? "border-orange" : "border-gray-300"
-            } mb-2 sm:mb-4`}
-          >
-            {!text && <input {...getInputProps()} />}
-            {isDragActive ? (
-              <p className="text-center text-black">Drop the files here ...</p>
-            ) : (
-              <p className="text-center text-black">
-                Drag 'n' drop an image here, or click to select an image
-              </p>
-            )}
-          </div>
-          {imagePreview && (
-            <div className="mb-2 sm:mb-4 flex justify-center">
-              <img
-                src={imagePreview}
-                alt="Image Preview"
-                className="w-20 h-auto"
-              />
+    <>
+      <div className="flex justify-center items-center min-h-screen bg-lightgray pt-8 pb-4 sm:pt-24 sm:pb-20 mt-10">
+        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg">
+          <Title level={2} className="mb-2 sm:mb-4 text-center text-black">
+            Send a Message or Image
+          </Title>
+          <Text className="text-center mb-2 sm:mb-4 text-black">
+            Please fill in the details below to send your message or image
+          </Text>
+          <form onSubmit={handleSubmit}>
+            <div
+              {...getRootProps()}
+              className={`p-2 sm:p-4 border-2 border-dashed rounded-lg ${
+                isDragActive ? "border-orange" : "border-gray-300"
+              } mb-2 sm:mb-4`}
+            >
+              {!text && <input {...getInputProps()} />}
+              {isDragActive ? (
+                <p className="text-center text-black">
+                  Drop the files here ...
+                </p>
+              ) : (
+                <p className="text-center text-black">
+                  Drag 'n' drop an image here, or click to select an image
+                </p>
+              )}
             </div>
-          )}
-          <TextArea
-            rows={4}
-            placeholder="Type a message or paste an image that contains an email"
-            value={text}
-            onChange={handleTextChange}
-            disabled={imagePreview || imagePasted}
-            className="mb-2 sm:mb-4"
-          />
-          {imagePasted && (
-            <Text className="text-orange text-sm mb-2">
-              Image pasted from clipboard
-            </Text>
-          )}
-          <Button
-            type="primary"
-            htmlType="submit"
-            block
-            disabled={formSubmitted}
-            className="bg-orange border-none"
-          >
-            Send
-          </Button>
-        </form>
-        <div className="flex mt-2 sm:mt-4">
-          <div>
-            {responseDatatext && (
-              <ConditionalComponent url={null} results={textResponse.results} />
+            {imagePreview && (
+              <div className="mb-2 sm:mb-4 flex justify-center">
+                <img
+                  src={imagePreview}
+                  alt="Image Preview"
+                  className="w-20 h-auto"
+                />
+              </div>
             )}
-          </div>
-          <div>
-            {responseDataimage && (
-              <ConditionalComponent
-                url={imageResponse.url}
-                results={imageResponse.results}
-              />
+            <TextArea
+              rows={4}
+              placeholder="Type a message or paste an image that contains an email"
+              value={text}
+              onChange={handleTextChange}
+              disabled={imagePreview || imagePasted}
+              className="mb-2 sm:mb-4"
+            />
+            {imagePasted && (
+              <Text className="text-orange text-sm mb-2">
+                Image pasted from clipboard
+              </Text>
             )}
+            <Button
+              type="primary"
+              htmlType="submit"
+              block
+              disabled={formSubmitted}
+              className="bg-orange border-none"
+            >
+              Send
+            </Button>
+          </form>
+          <div className="flex mt-2 sm:mt-4">
+            <div>
+              {responseDatatext && (
+                <ConditionalComponent
+                  url={null}
+                  results={textResponse.results}
+                />
+              )}
+            </div>
+            <div>
+              {responseDataimage && (
+                <ConditionalComponent
+                  url={imageResponse.url}
+                  results={imageResponse.results}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div className="flex pt-4 bg-lightgray justify-center">
+        <DemoSection />
+      </div>
+    </>
   );
 };
 

@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Table } from "antd";
+import { useUser } from "@clerk/clerk-react";
 const Baseurl = "https://s3-to-emai.vercel.app";
 const TableComponent = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useUser();
 
+  if (!user) {
+    return <div>Loading...</div>;
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -79,6 +84,19 @@ const TableComponent = () => {
         bordered
         scroll={{ x: 800 }}
       />
+      {/* <div>
+        <h2>User Information</h2>
+        <p>
+          <strong>Email:</strong> {user.primaryEmailAddress.emailAddress}
+        </p>
+        <p>
+          <strong>First Name:</strong> {user.firstName}
+        </p>
+        <p>
+          <strong>Last Name:</strong> {user.lastName}
+        </p>
+      
+      </div> */}
     </div>
   );
 };
