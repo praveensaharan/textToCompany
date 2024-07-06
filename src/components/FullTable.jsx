@@ -131,7 +131,9 @@ const TableComponent = () => {
         onChange={handleSearchChange}
         className="w-52 mb-2 p-2 border-2 focus:border-lightgray rounded-xl border-orange transition duration-200"
       />
-      <p className="text-2xl font-semibold text-black mb-4 my-4">Top 20 Data</p>
+      <p className="text-2xl font-semibold text-black mb-4 my-4">
+        Top 200 Data
+      </p>
       <Table
         columns={columns}
         dataSource={dataSource}
