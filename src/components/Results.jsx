@@ -224,7 +224,7 @@ const ResultsComponent = () => {
   ];
 
   return (
-    <div className="container mx-auto p-2 sm:p-4 mt-20">
+    <div className="container mx-auto p-2 sm:p-4 my-20">
       <Table
         columns={columns}
         dataSource={data}
