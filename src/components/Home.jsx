@@ -150,7 +150,7 @@ const Home = () => {
                 </p>
               ) : (
                 <p className="text-center text-black">
-                  Drag 'n' drop an image here, or click to select an image
+                  Drag & drop an image here, or click to select an image
                 </p>
               )}
             </div>
@@ -176,15 +176,15 @@ const Home = () => {
                 Image pasted from clipboard
               </Text>
             )}
-            <Button
-              type="primary"
-              htmlType="submit"
-              block
-              disabled={formSubmitted}
-              className="bg-orange border-none"
-            >
-              Send
-            </Button>
+            <div className="w-full flex justify-center">
+              <button
+                htmlType="submit"
+                disabled={formSubmitted}
+                className="w-full text-white bg-orange hover:bg-black hover:text-white rounded-xl px-4 py-2 transition duration-300 ease-in-out font-bold"
+              >
+                Send
+              </button>
+            </div>
           </form>
           <div className="flex mt-2 sm:mt-4">
             <div>

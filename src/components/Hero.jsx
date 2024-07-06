@@ -90,6 +90,7 @@ const HeroSection = () => {
         <SignedOut>
           <SignInButton
             mode="modal"
+            redirectUrl="/"
             className="bg-orange text-black px-6 py-3 font-semibold rounded-full transition duration-300 transform hover:scale-105 hover:shadow-lg"
           >
             Get Started

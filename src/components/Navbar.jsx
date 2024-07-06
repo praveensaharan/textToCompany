@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
 import {
   SignedIn,
   SignedOut,
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
-import { Image } from "antd";
 import Logo from "../assets/textto-high-resolution-logo-transparent.png";
-// import Logo from "../assets/logo-no-background.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,8 +18,8 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed inset-x-0 z-10 top-0 mx-auto w-full border border-orange bg-lightgray py-3 shadow-lg backdrop-blur-lg transition-all duration-500 md:top-1 md:rounded-xl lg:max-w-screen-xl hover:shadow-2xl hover:bg-gray-300">
-      <div className="px-8">
+    <header className="fixed inset-x-0 z-10 top-0 w-full rounded-2xl border-x-4 border-y-2 border-orange bg-lightgray py-3 shadow-lg backdrop-blur-lg transition-all duration-500 hover:shadow-2xl hover:bg-gray-300">
+      <div className="container mx-auto px-8">
         <div className="flex items-center justify-between">
           <div className="flex shrink-0">
             <Link aria-current="page" className="flex items-center" to="/">
@@ -66,6 +63,7 @@ const Navbar = () => {
             <SignedOut>
               <SignInButton
                 mode="modal"
+                redirectUrl="/"
                 className="inline-flex items-center justify-center rounded-xl bg-orange px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
                 Login
