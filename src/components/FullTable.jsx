@@ -1,25 +1,39 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Table } from "antd";
+import { useSession } from "@clerk/clerk-react";
+
 const Baseurl = "https://s3-to-emai.vercel.app";
+
 const TableComponent = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { session } = useSession();
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get(`${Baseurl}/tablecontents`);
-        setData(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching the data", error);
-        setLoading(false);
+      if (session) {
+        try {
+          const token = await session.getToken();
+          const response = await axios.get(
+            `${Baseurl}/database/tablecontents`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setData(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching the data", error);
+          setLoading(false);
+        }
       }
     };
 
     fetchData();
-  }, []);
+  }, [session]);
 
   const columns = [
     {
@@ -68,7 +82,7 @@ const TableComponent = () => {
   ];
 
   return (
-    <div className="container mx-auto p-2 sm:p-4">
+    <div className="container mx-auto p-2 sm:p-4 mt-20">
       <Table
         columns={columns}
         dataSource={data}
@@ -77,7 +91,7 @@ const TableComponent = () => {
         className="bg-white shadow-lg"
         pagination={false}
         bordered
-        scroll={{ x: 800 }} // Horizontal scrolling for small screens
+        scroll={{ x: 800 }}
       />
     </div>
   );

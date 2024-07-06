@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSession } from "@clerk/clerk-react";
 import { Table, Button, Tooltip, Modal, Form, Input, Select } from "antd";
 import {
   EditOutlined,
@@ -18,21 +19,29 @@ const ResultsComponent = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [editRecord, setEditRecord] = useState(null);
   const [editForm] = Form.useForm();
+  const { session } = useSession();
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get(`${Baseurl}/results`);
-        setData(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching the data", error);
-        setLoading(false);
+      if (session) {
+        try {
+          const token = await session.getToken();
+          const response = await axios.get(`${Baseurl}/result`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setData(response.data);
+        } catch (error) {
+          console.error("Error fetching the data", error);
+        } finally {
+          setLoading(false);
+        }
       }
     };
 
     fetchData();
-  }, []);
+  }, [session]);
 
   const handleEdit = (record) => {
     setEditRecord(record);
@@ -45,37 +54,50 @@ const ResultsComponent = () => {
   };
 
   const handleMove = async (id) => {
-    try {
-      console.log("Moving record with ID:", id);
-      await axios.post(`${Baseurl}/movetomain/${id}`);
-      setData((prevData) => prevData.filter((item) => item._id !== id));
-      Modal.success({
-        title: "Moved",
-        content: "Result moved successfully",
-      });
-    } catch (error) {
-      console.error("Error moving the data", error);
-      Modal.error({
-        title: "Error",
-        content: "There was an error moving the result",
-      });
+    if (session) {
+      try {
+        const token = await session.getToken();
+        await axios.post(`${Baseurl}/result/movetomain/${id}`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setData((prevData) => prevData.filter((item) => item._id !== id));
+        Modal.success({
+          title: "Moved",
+          content: "Result moved successfully",
+        });
+      } catch (error) {
+        console.error("Error moving the data", error);
+        Modal.error({
+          title: "Error",
+          content: "There was an error moving the result",
+        });
+      }
     }
   };
 
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${Baseurl}/delete/${id}`);
-      setData((prevData) => prevData.filter((item) => item._id !== id));
-      Modal.success({
-        title: "Deleted",
-        content: "Result deleted successfully",
-      });
-    } catch (error) {
-      console.error("Error deleting the data", error);
-      Modal.error({
-        title: "Error",
-        content: "There was an error deleting the result",
-      });
+    if (session) {
+      try {
+        const token = await session.getToken();
+        await axios.delete(`${Baseurl}/result/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setData((prevData) => prevData.filter((item) => item._id !== id));
+        Modal.success({
+          title: "Deleted",
+          content: "Result deleted successfully",
+        });
+      } catch (error) {
+        console.error("Error deleting the data", error);
+        Modal.error({
+          title: "Error",
+          content: "There was an error deleting the result",
+        });
+      }
     }
   };
 
@@ -109,27 +131,33 @@ const ResultsComponent = () => {
 
   const handleEditModalOk = () => {
     editForm.validateFields().then(async (values) => {
-      try {
-        const id = editRecord._id;
-        await axios.put(`${Baseurl}/edit/${id}`, values);
-        setData((prevData) =>
-          prevData.map((item) =>
-            item._id === id ? { ...item, ...values } : item
-          )
-        );
-        console.log("Edited values:", values);
-        setEditModalVisible(false);
-        editForm.resetFields();
-        Modal.success({
-          title: "Edited",
-          content: "Result edited successfully",
-        });
-      } catch (error) {
-        console.error("Error editing the data", error);
-        Modal.error({
-          title: "Error",
-          content: "There was an error editing the result",
-        });
+      if (session) {
+        try {
+          const token = await session.getToken();
+          const id = editRecord._id;
+          await axios.put(`${Baseurl}/result/${id}`, values, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setData((prevData) =>
+            prevData.map((item) =>
+              item._id === id ? { ...item, ...values } : item
+            )
+          );
+          setEditModalVisible(false);
+          editForm.resetFields();
+          Modal.success({
+            title: "Edited",
+            content: "Result edited successfully",
+          });
+        } catch (error) {
+          console.error("Error editing the data", error);
+          Modal.error({
+            title: "Error",
+            content: "There was an error editing the result",
+          });
+        }
       }
     });
   };
@@ -196,7 +224,7 @@ const ResultsComponent = () => {
   ];
 
   return (
-    <div className="container mx-auto p-2 sm:p-4">
+    <div className="container mx-auto p-2 sm:p-4 mt-20">
       <Table
         columns={columns}
         dataSource={data}
