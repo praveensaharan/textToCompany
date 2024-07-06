@@ -7,12 +7,40 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 
+const companies = [
+  { company_name: "Microsoft Corporation", email: "john.doe@microsoft.com" },
+  { company_name: "Apple Inc.", email: "jane.smith@apple.com" },
+  { company_name: "Google LLC", email: "michael.brown@google.com" },
+  { company_name: "Amazon Web Services", email: "linda.jones@amazonaws.com" },
+  { company_name: "IBM Corporation", email: "david.wilson@ibm.com" },
+  { company_name: "Oracle Corporation", email: "susan.moore@oracle.com" },
+  { company_name: "Salesforce Inc.", email: "robert.taylor@salesforce.com" },
+  { company_name: "SAP SE", email: "patricia.anderson@sap.com" },
+  { company_name: "Adobe Inc.", email: "james.thomas@adobe.com" },
+  { company_name: "Intel Corporation", email: "barbara.jackson@intel.com" },
+  { company_name: "Cisco Systems, Inc.", email: "charles.white@cisco.com" },
+  { company_name: "NVIDIA Corporation", email: "margaret.harris@nvidia.com" },
+  { company_name: "Facebook, Inc.", email: "richard.martin@facebook.com" },
+  { company_name: "Tesla, Inc.", email: "mary.thompson@tesla.com" },
+  {
+    company_name: "Spotify Technology S.A.",
+    email: "joseph.garcia@spotify.com",
+  },
+  { company_name: "Snap Inc.", email: "sarah.martinez@snap.com" },
+  { company_name: "Dropbox, Inc.", email: "william.robinson@dropbox.com" },
+  { company_name: "Slack Technologies, Inc.", email: "karen.clark@slack.com" },
+  { company_name: "Twitter, Inc.", email: "daniel.rodriguez@twitter.com" },
+  {
+    company_name: "Atlassian Corporation Plc",
+    email: "nancy.lewis@atlassian.com",
+  },
+];
 const HeroSection = () => {
   const generateRandomAnimation = () => {
-    const animationDuration = `${Math.random() * 5 + 30}s`;
+    const animationDuration = `${Math.random() * 5 + 8}s`;
     const animationDelay = `${Math.random()}s`;
-    const translateX = `${Math.random() * 800 + 800}px`;
-    const translateY = `${Math.random() * 1600 + 1900}px`;
+    const translateX = `${Math.random() * 200 + 150}px`;
+    const translateY = `${Math.random() * 600 + 300}px`;
     const rotate = `${Math.random() * 360}deg`;
 
     return {
@@ -27,7 +55,7 @@ const HeroSection = () => {
   return (
     <div className="relative bg-lightgray text-black py-20 overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-4">
-        {[...Array(20)].map((_, index) => (
+        {companies.map((company, index) => (
           <div
             key={index}
             className="absolute animate-float z-1"
@@ -39,11 +67,11 @@ const HeroSection = () => {
           >
             {index % 2 === 0 ? (
               <div className="bg-red-50 rounded-full px-2 py-1 text-xs font-semibold text-gray-400">
-                Company Name
+                {company.company_name}
               </div>
             ) : (
               <div className="bg-blue-50 rounded-full px-2 py-1 text-xs font-semibold text-gray-400">
-                email@example.com
+                {company.email}
               </div>
             )}
           </div>
