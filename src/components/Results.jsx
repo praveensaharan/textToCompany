@@ -26,7 +26,7 @@ const ResultsComponent = () => {
       if (session) {
         try {
           const token = await session.getToken();
-          const response = await axios.get(`${Baseurl}/results`, {
+          const response = await axios.get(`${Baseurl}/result`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -57,7 +57,7 @@ const ResultsComponent = () => {
     if (session) {
       try {
         const token = await session.getToken();
-        await axios.post(`${Baseurl}/movetomain/${id}`, null, {
+        await axios.post(`${Baseurl}/result/movetomain/${id}`, null, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -81,7 +81,7 @@ const ResultsComponent = () => {
     if (session) {
       try {
         const token = await session.getToken();
-        await axios.delete(`${Baseurl}/delete/${id}`, {
+        await axios.delete(`${Baseurl}/result/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -135,7 +135,7 @@ const ResultsComponent = () => {
         try {
           const token = await session.getToken();
           const id = editRecord._id;
-          await axios.put(`${Baseurl}/edit/${id}`, values, {
+          await axios.put(`${Baseurl}/result/${id}`, values, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

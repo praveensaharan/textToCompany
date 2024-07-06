@@ -45,7 +45,7 @@ const Home = () => {
         const token = await session.getToken();
         if (text) {
           const response = await axios.post(
-            `${Baseurl}/uploadtext`,
+            `${Baseurl}/upload/text`,
             { text },
             {
               headers: {
@@ -62,12 +62,16 @@ const Home = () => {
           const formData = new FormData();
           formData.append("image", image);
 
-          const response = await axios.post(`${Baseurl}/upload`, formData, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          });
+          const response = await axios.post(
+            `${Baseurl}/upload/image`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
           setImageResponse(response.data);
           setResponseDataimage(true);
           console.log(response.data);

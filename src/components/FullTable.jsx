@@ -15,11 +15,14 @@ const TableComponent = () => {
       if (session) {
         try {
           const token = await session.getToken();
-          const response = await axios.get(`${Baseurl}/tablecontents`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const response = await axios.get(
+            `${Baseurl}/database/tablecontents`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           setData(response.data);
           setLoading(false);
         } catch (error) {
