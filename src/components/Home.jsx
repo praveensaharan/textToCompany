@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import { Button, Typography, Input, message as antdMessage } from "antd";
 import { useDropzone } from "react-dropzone";
+import { useSession } from "@clerk/clerk-react";
 import ConditionalComponent from "./Response";
 import DemoSection from "./DemoSection";
 const { Title, Text } = Typography;
@@ -19,6 +20,7 @@ const Home = () => {
   const [responseDataimage, setResponseDataimage] = useState(false);
   const [imageResponse, setImageResponse] = useState({});
   const [textResponse, setTextResponse] = useState({});
+  const { session } = useSession();
 
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -38,12 +40,19 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (text || image) {
+    if (session && (text || image)) {
       try {
+        const token = await session.getToken();
         if (text) {
-          const response = await axios.post(`${Baseurl}/uploadtext`, {
-            text: text,
-          });
+          const response = await axios.post(
+            `${Baseurl}/uploadtext`,
+            { text },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           setTextResponse(response.data);
           setResponseDatatext(true);
           console.log(response.data);
@@ -55,6 +64,7 @@ const Home = () => {
 
           const response = await axios.post(`${Baseurl}/upload`, formData, {
             headers: {
+              Authorization: `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
             },
           });
